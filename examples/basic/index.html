@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Basic SW</title>
+  </head>
+  <body>
+    <h3>Basic SW</h3>
+
+    <span>
+      This page has a basic service worker that registers on first load. Subsequent loads will show
+      SW info; refresh to see it.
+    </span>
+
+    <br />
+
+    <i>You can see lifecycle events in console. You can also unregister the SW via devtools.</i>
+
+    <script>
+      window.addEventListener('load', () => {
+        if ('serviceWorker' in navigator) {
+          showActiveSW();
+          registerSW();
+        }
+      });
+
+      function showActiveSW() {
+        navigator.serviceWorker.getRegistration().then((sw) => {
+          const activeSW = sw !== undefined && sw.active !== null;
+
+          if (activeSW) {
+            insertInfo(sw);
+          }
+        });
+      }
+
+      function insertInfo(sw) {
+        const body = document.getElementsByTagName('body')[0];
+        const info = document.createElement('div');
+        info.style.paddingTop = '10px';
+
+        const scope = document.createElement('span');
+        scope.innerHTML = `Scope: ${sw.scope}`;
+
+        const url = document.createElement('span');
+        url.innerHTML = `URL: ${sw.active.scriptURL}`;
+
+        const state = document.createElement('span');
+        state.innerHTML = `State: ${sw.active.state}`;
+
+        info.appendChild(scope);
+        info.appendChild(document.createElement('br'));
+        info.appendChild(url);
+        info.appendChild(document.createElement('br'));
+        info.appendChild(state);
+        body.appendChild(info);
+      }
+
+      function registerSW() {
+        navigator.serviceWorker
+          .register('./sw.js')
+          .then(() => {
+            console.log('SW sucessfully registered.');
+          })
+          .catch((err) => {
+            console.warn('Error registering SW:');
+            console.warn(err);
+          });
+      }
+    </script>
+  </body>
+</html>
