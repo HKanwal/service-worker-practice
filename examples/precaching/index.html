@@ -8,9 +8,14 @@
   <body>
     <h3>Pre-caching</h3>
 
-    <span></span>
+    <span>Pre-caching: when assets are saved to cache during SW installation.</span>
 
-    <img src="./dog.jpg" height="300px" />
+    <br />
+
+    <i
+      >You will see a doggo in 3 seconds. If SW is active and you reloaded, you will see a catto
+      instead.</i
+    >
 
     <script>
       window.addEventListener('load', () => {
@@ -18,6 +23,8 @@
           registerSW();
         }
       });
+
+      setTimeout(showFriendo, 3000);
 
       function registerSW() {
         navigator.serviceWorker
@@ -29,6 +36,13 @@
             console.warn('Error registering SW:');
             console.warn(err);
           });
+      }
+
+      function showFriendo() {
+        const friendo = new Image();
+        friendo.src = './dog.jpg';
+        friendo.height = 500;
+        document.body.appendChild(friendo);
       }
     </script>
   </body>

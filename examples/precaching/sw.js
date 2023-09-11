@@ -11,10 +11,8 @@ self.addEventListener('install', (e) => {
 self.addEventListener('fetch', (e) => {
   const url = new URL(e.request.url);
 
-  console.log('doggo??', url.pathname);
-
-  if (url.origin === location.origin && url.pathname === './dog.jpg') {
-    console.log('no dog for you');
+  if (url.origin === location.origin && url.pathname.includes('/dog.jpg')) {
+    console.log('No doggo for you :(');
     e.respondWith(caches.match('./cat.jpg'));
   }
 });
