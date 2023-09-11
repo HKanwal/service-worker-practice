@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pre-caching</title>
+  </head>
+  <body>
+    <h3>Pre-caching</h3>
+
+    <span></span>
+
+    <img src="./dog.jpg" height="300px" />
+
+    <script>
+      window.addEventListener('load', () => {
+        if ('serviceWorker' in navigator) {
+          registerSW();
+        }
+      });
+
+      function registerSW() {
+        navigator.serviceWorker
+          .register('./sw.js')
+          .then(() => {
+            console.log('SW sucessfully registered.');
+          })
+          .catch((err) => {
+            console.warn('Error registering SW:');
+            console.warn(err);
+          });
+      }
+    </script>
+  </body>
+</html>
